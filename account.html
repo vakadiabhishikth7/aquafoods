@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Account | Vijayadurga Aquafoods</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <div class="logo">
+
+                <h2>Vijayadurga</h2>
+                <span>Aquafoods</span>
+
+            </div>
+
+            <ul class="nav-links">
+
+                <li><a href="index.html">Home</a></li>
+                <li><a href="category.html">Categories</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#">Contact</a></li>
+
+            </ul>
+
+            <div class="nav-buttons">
+
+                <a class="search-btn" href="search.html">Search</a>
+                <a class="cart-btn" href="cart.html">Cart <span class="cart-count">0</span></a>
+                <a class="login-btn" href="login.html">Login</a>
+                <a class="signup-btn" href="signup.html">Sign Up</a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- Account Section -->
+
+    <section class="account-section">
+
+        <div class="account-container">
+
+            <div id="not-logged-in" class="account-message">
+
+                <h2>Please Login to View Your Account</h2>
+
+                <p>Sign in to view your profile, orders, and manage your preferences.</p>
+
+                <div class="account-buttons">
+
+                    <a href="login.html" class="primary-btn">Login</a>
+
+                    <a href="signup.html" class="secondary-btn">Create Account</a>
+
+                </div>
+
+            </div>
+
+            <div id="logged-in-panel" style="display:none;" class="account-panel">
+
+                <div class="account-header">
+
+                    <h1>My Account</h1>
+
+                    <p>Welcome back! Manage your profile and preferences.</p>
+
+                </div>
+
+                <div class="account-grid">
+
+                    <div class="account-card">
+
+                        <h3>👤 Profile Information</h3>
+
+                        <div class="info-item">
+
+                            <label>Name</label>
+
+                            <p id="display-name">-</p>
+
+                        </div>
+
+                        <div class="info-item">
+
+                            <label>Email</label>
+
+                            <p id="display-email">-</p>
+
+                        </div>
+
+                        <div class="info-item">
+
+                            <label>Mobile Number</label>
+
+                            <p id="display-mobile">-</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="account-card">
+
+                        <h3>📦 Order Summary</h3>
+
+                        <div class="info-item">
+
+                            <label>Total Orders</label>
+
+                            <p class="stat-number">0</p>
+
+                        </div>
+
+                        <div class="info-item">
+
+                            <label>Order History</label>
+
+                            <div id="order-history" class="order-history">
+                                <div class="order-history-item">
+                                    <strong>No orders yet</strong>
+                                    <span>Your completed purchases will appear here.</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="info-item">
+
+                            <label>Member Since</label>
+
+                            <p id="member-since">-</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="account-card">
+
+                        <h3>🛒 Quick Actions</h3>
+
+                        <button class="quick-btn" onclick="window.location.href='category.html'">Shop Now</button>
+
+                        <button class="quick-btn" onclick="window.location.href='cart.html'">View Cart</button>
+
+                        <button class="quick-btn" onclick="window.location.href='address.html'">My Delivery Address</button>
+
+                        <button class="quick-btn logout-btn" onclick="logoutAccount()">Logout</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <div class="footer-logo">
+
+            <h2>Vijayadurga Aquafoods</h2>
+
+            <p>
+
+                Quality You Can Taste
+
+            </p>
+
+        </div>
+
+        <div class="footer-links">
+
+            <a href="index.html">Home</a>
+            <a href="category.html">Products</a>
+            <a href="about.html">About</a>
+            <a href="#">Contact</a>
+
+        </div>
+
+        <div class="copyright">
+
+            © 2026 Vijayadurga Aquafoods. All Rights Reserved.
+
+        </div>
+
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayAccountInfo();
+        });
+
+        function displayAccountInfo() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const currentUser = localStorage.getItem('currentUser');
+
+            if (isLoggedIn === 'true' && currentUser) {
+                const user = JSON.parse(currentUser);
+                
+                document.getElementById('not-logged-in').style.display = 'none';
+                document.getElementById('logged-in-panel').style.display = 'block';
+
+                document.getElementById('display-name').textContent = user.name || 'User';
+                document.getElementById('display-email').textContent = user.email || '-';
+                document.getElementById('display-mobile').textContent = user.mobile || '-';
+
+                const loginTime = new Date(user.loginTime);
+                document.getElementById('member-since').textContent = loginTime.toLocaleDateString();
+
+            } else {
+                document.getElementById('not-logged-in').style.display = 'block';
+                document.getElementById('logged-in-panel').style.display = 'none';
+            }
+        }
+
+        function logoutAccount() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('userMobile');
+                window.location.href = 'index.html';
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
